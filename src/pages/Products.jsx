@@ -11,10 +11,8 @@ const Products = () => {
   
   return (
    <>
-      <SortBy />
-      <CategoryFilter />
-      <ProductsList />
-      </>
+     <ProductsList />
+     </>
   );
 };
 

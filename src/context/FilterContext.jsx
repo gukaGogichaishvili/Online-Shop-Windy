@@ -44,9 +44,7 @@ export const FilterProvider = ({ children }) => {
         const filtered = allProducts.filter(product => 
             (queryCategory === '' || product.category === queryCategory)  &&
             (product.price >= priceRange.min && product.price <= priceRange.max)
-             && (searchTerm === '' ||
-             product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-             product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+             
        );
     
     

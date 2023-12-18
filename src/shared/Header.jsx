@@ -42,6 +42,7 @@ const Header = () => {
                 <Link to="/profile" className="block px-4 py-2 text-gray-800">
                   Profile
                 </Link>
+                <div></div>
                 <button
                   onClick={handleLogout}
                   className="block px-4 py-2 text-gray-800"
