@@ -1,0 +1,61 @@
+
+.collapse {
+visibility: visible !important;
+}
+
+.ci-heart-circle:before {
+content: "\e943";
+}
+
+.ci-heart:before {
+content: "\e944";
+}
+
+.ci-heart-filled:before {
+content: "\e9e1";
+}
+
+.ci-arrow-right,
+.ci-arrow-left {
+color: #007bff;
+font-size: 24px;
+}
+
+.ci-arrow-right,
+.ci-arrow-left {
+color: #0056b3;
+}
+
+.ci-heart-filled {
+color: #fe696a;
+}
+.dropdown {
+bottom: 0px;
+}
+
+
+.success-message {
+background-color: rgba(0, 128, 0, 0.3); /* Semi-transparent green background */
+color: green; /* Green text color */
+border: 1px solid green; /* Green border */
+padding: 10px;
+margin: 10px 0;
+border-radius: 5px;
+text-align: center;
+}
+
+
+.success-red {
+background-color: rgba(255, 0, 0, 0.3);
+color: red; 
+border: 1px solid red; 
+padding: 10px;
+margin: 10px 0;
+border-radius: 5px;
+text-align: center;
+}
+
+.hrt{
+margin-right: 10px !important;
+z-index: 100 !important;
+}

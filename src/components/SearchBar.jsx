@@ -1,22 +1,29 @@
-import React, { useContext, useState } from 'react';
-import { useFilterContext } from '../context/FilterContext';
-import { useSearch } from '../context/SearchContext';
-
+import React, { useContext, useState } from "react";
+import { useFilterContext } from "../context/FilterContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useFetchContext } from "../context/FetchContext";
 
 const SearchBar = () => {
-const {setSearchTerm, handleSearch, searchTerm} = useSearch();
-
+  const { searchTerm, setSearchTerm, handleSearch } = useFilterContext();
 
   return (
-    <div className="flex items-center ml-4  mx-auto">
+    <div className="input-group d-none d-lg-flex mx-4">
       <input
+        className="form-control rounded-end pe-5"
         type="text"
-        placeholder="Search products"
+        placeholder="Search for products"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-64 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
       />
-      <button onClick={handleSearch} className="px-4 py-2 bg-blue-500 text-white rounded-md">Search</button>
+      <i
+        className="ci-search position-absolute top-50 end-0 translate-middle-y text-muted fs-base me-3"
+        onClick={handleSearch}
+      />
     </div>
   );
 };

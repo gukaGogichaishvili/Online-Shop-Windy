@@ -11,10 +11,10 @@ const useLocalStorage = (key, initialValue) => {
     return initialValue;
   }
 
-  function updateStorage(newValue) {    
+  function updateStorage(newValue) {
     setData(newValue);
     localStorage.setItem(key, JSON.stringify(newValue));
-    console.log(key, newValue); 
+    console.log(key, newValue);
   }
 
   return [data, updateStorage];

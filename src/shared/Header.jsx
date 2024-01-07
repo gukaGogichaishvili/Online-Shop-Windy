@@ -1,80 +1,96 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { ShoppingCartContext } from '../context/ShoppingCartContext';
-import { useSearch } from '../context/SearchContext';
-import SearchBar from '../components/SearchBar';
-import { Avatar } from '../components';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { ShoppingCartContext } from "../context/ShoppingCartContext";
+import { MiniCart, SearchBar } from "../components";
+import AuthLayout from "../auth/AuthLayout";
+import { ToggleProfilePageContext } from "../context/ToggleProfilePageContext";
 
 const Header = () => {
-  const { token, logout } = useContext(AuthContext);
-  const { cart } = useContext(ShoppingCartContext);
-
-
+  const { token } = useContext(AuthContext);
+  const { cart, calculateTotal} = useContext(ShoppingCartContext);
+  const { setEditPage } = useContext(ToggleProfilePageContext);
   
 
 
-  const handleLogout = () => {
-    
-    logout();
-
-  };
-
-
- 
-    return (
-      <div className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
-        <div className="flex items-center space-x-4">
-          <Link to="/">
-            <div className="text-xl font-bold">
-              <img src="/public/assets/logo.png" alt="Logo" className='h-12 w-13' />
-            </div>
-          </Link>
-          <Link to="/products">Products</Link>
-          <SearchBar />
-        </div>
-  
-        <div className="flex items-center space-x-4">
-          {token && (
-            <div className="relative group">
-              <Avatar />
-              <div className="absolute hidden group-hover:block right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden">
-                <Link to="/profile" className="block px-4 py-2 text-gray-800">
-                  Profile
-                </Link>
-                <div></div>
-                <button
-                  onClick={handleLogout}
-                  className="block px-4 py-2 text-gray-800"
+  return (
+    <>
+      <AuthLayout />
+      <div className="navbar-sticky bg-light">
+        <div className="navbar navbar-expand-lg navbar-light">
+          <div className="container">
+            <Link
+              className="navbar-brand d-none d-sm-block flex-shrink-0"
+              to="/products"
+            >
+              <img src="assets/logo.png" width={85} alt="logo" />
+            </Link>
+            <Link
+              className="navbar-brand d-sm-none flex-shrink-0 me-2"
+              to="/products"
+            >
+              <img src="assets/logo.png" width={74} alt="logo" />
+            </Link>
+            <SearchBar />
+            <div className="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+         
+              {!token ? (
+                <a
+                  className="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
+                  href="#signin-modal"
+                  data-bs-toggle="modal"
                 >
-                  Logout
-                </button>
+                  <div className="navbar-tool-icon-box">
+                    <i className="navbar-tool-icon ci-user" />
+                  </div>
+                  <div className="navbar-tool-text ms-n3">Hello, Sign in</div>
+                </a>
+              ) : (
+                <>
+                  <Link
+                    className="navbar-tool  d-lg-flex"
+                    to="/profile"
+                    onClick={() => {
+                      setEditPage(false);
+                    }}
+                  >
+                    <span className="navbar-tool-tooltip hrt">Wishlist</span>
+                    <div className="navbar-tool-icon-box hrt">
+                      <i className="navbar-tool-icon ci-heart" />
+                    </div>
+                  </Link>
+                  <Link
+                    className="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
+                    to="/profile"
+                    onClick={() => {
+                      setEditPage(true);
+                    }}
+                  >
+                    <div className="navbar-tool-text ms-n3 ml-5 bg-primary rounded p-3" >My Account</div>
+                  </Link>
+                </>
+              )}
+              <div className="navbar-tool dropdown ms-3">
+                <Link
+                  className="navbar-tool-icon-box bg-secondary dropdown-toggle"
+                  to="/cart"
+                >
+                  <span className="navbar-tool-label">
+                    {cart.reduce((total, item) => total + item.quantity, 0)}
+                  </span>
+                  <i className="navbar-tool-icon ci-cart" />
+                </Link>
+                <Link className="navbar-tool-text" to="/cart">
+                  <small>My Cart</small>${calculateTotal()}
+                </Link>
+                <MiniCart />
               </div>
             </div>
-          )}
-  
-          <Link to="/cart" className="flex items-center space-x-1">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-            </svg>
-            <span>{cart.length}</span>
-          </Link>
+          </div>
         </div>
-        <div onClick={() => {console.log(localStorage.getItem("authData"))}}>GENERAL USER DATA</div>
-        <button
-                  onClick={handleLogout}
-                  className="block px-4 py-2"
-                >
-                  Logout
-                </button>
       </div>
-    );
-  };
-
+    </>
+  );
+};
 
 export default Header;
