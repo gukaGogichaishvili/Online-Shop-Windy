@@ -51,7 +51,6 @@ const SingleProduct = () => {
     let data = await response.json();
     setSingleProductData(data);
     setActiveImage(0);
-    window.location.reload();
   };
   useEffect(() => {
     goGetSingleProduct();
