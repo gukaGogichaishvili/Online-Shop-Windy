@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useFetchContext } from "../context/FetchContext";
 import { ShoppingCartContext } from "../context/ShoppingCartContext";
 import { useRatingContext } from "../context/RatingContext";
-import "../index.css";
 
 const Home = () => {
   const { searchTerm, setSearchTerm, handleSearch } = useFilterContext();
@@ -104,7 +103,7 @@ const Home = () => {
             <p className="text-muted text-center">
               Every week we hand-pick some of the best items from our collection
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="d-flex justify-content-between">
               {topProducts.map((topProduct) => (
               
                     <div className="card product-card-alt">
@@ -181,11 +180,11 @@ const Home = () => {
           </h2>
         </div>
         <div className="row pt-2 mx-n2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="d-flex justify-content-around">
         {popularProducts.map((popularProduct) => (
       
-              <div className="card product-card-alt flex flex-row">
-                <div className="product-thumb">
+              <div className="card product-card-alt d-flex">
+                <div className="product-thumb ">
                   <button className="btn-wishlist btn-sm" type="button">
                     <i className="ci-heart" />
                   </button>
@@ -283,7 +282,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="d-flex justify-content-between">
           {salesProduct.map((sales) => (
              <div className="card product-card-alt">
              <div className="product-thumb">
