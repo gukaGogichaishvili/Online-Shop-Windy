@@ -31,6 +31,7 @@ const AuthLayout = () => {
                   data-bs-toggle="tab"
                   role="tab"
                   aria-selected="false"
+                  onClick={() => {setActiveTab(false)}}
                 >
                   <i className="ci-user me-2 mt-n1" />
                   Sign up
@@ -45,7 +46,7 @@ const AuthLayout = () => {
             />
           </div>
           <div className="modal-body tab-content py-4">
-            {activeTab && (<LoginForm />)}
+            {activeTab ? (<LoginForm />) : (<></>)}
             <Register />
           </div>
         </div>
