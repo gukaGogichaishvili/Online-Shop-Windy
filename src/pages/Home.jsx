@@ -103,10 +103,9 @@ const Home = () => {
             <p className="text-muted text-center">
               Every week we hand-pick some of the best items from our collection
             </p>
-            <div className=" pt-4 flex flex-row justify-between ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {topProducts.map((topProduct) => (
-                <div>
-                  <div>
+              
                     <div className="card product-card-alt">
                       <div className="product-thumb">
                         <button className="btn-wishlist btn-sm" type="button">
@@ -168,8 +167,7 @@ const Home = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                
               ))}
             </div>
           </div>
@@ -181,10 +179,11 @@ const Home = () => {
             The most popular ones, hurry! they are running short!
           </h2>
         </div>
+        <div className="row pt-2 mx-n2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {popularProducts.map((popularProduct) => (
-          <div className="row pt-2 mx-n2">
-            <div className="col-lg-3 col-md-4 col-sm-6 px-2 mb-grid-gutter">
-              <div className="card product-card-alt">
+      
+              <div className="card product-card-alt flex flex-row">
                 <div className="product-thumb">
                   <button className="btn-wishlist btn-sm" type="button">
                     <i className="ci-heart" />
@@ -213,6 +212,7 @@ const Home = () => {
                   <img
                     src={popularProduct.images[0]}
                     alt={popularProduct.title}
+                    style={{ width: '200px', height: '200px', objectFit: 'cover' }} 
                   />
                 </div>
                 <div className="card-body">
@@ -236,13 +236,13 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+           
         ))}
-     
+      </div>
+          </div>
         <div className="text-center">
           <Link
-            className="btn btn-outline-accent"
+            className="btn btn-outline-accent mt-8"
             to='/products'
           >
             View more products
@@ -273,7 +273,7 @@ const Home = () => {
                   <div className="ps-3">
                     <h3 className="fs-lg mb-0">Go To Shop</h3>
                     <Link
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary btn-sm m-3"
                       to='/products'
                     >
                       View products
@@ -282,7 +282,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {salesProduct.map((sales) => (
              <div className="card product-card-alt">
              <div className="product-thumb">
@@ -309,7 +309,8 @@ const Home = () => {
                />
                <img
                  src={sales.images[0]}
-                 alt="Product"
+                 alt={sales.title}
+                 style={{ width: '400px', height: '400px', objectFit: 'cover' }} 
                />
              </div>
              <div className="card-body">

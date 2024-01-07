@@ -13,6 +13,7 @@ import { RatingProvider } from "./context/RatingContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { ProfileToggleProvider } from "./context/ToggleProfilePageContext.jsx";
 import "./theme.min.css";
+import "./index.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
