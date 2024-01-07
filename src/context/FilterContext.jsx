@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useFetchContext } from "./FetchContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,9 +14,7 @@ export const FilterProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [brandFilter, setBrandFilter] = useState(new Set());
 
-  const { allProducts, totalProductsNumber, setTotalProductsNumber } =
-    useFetchContext();
-
+  const { allProducts, setTotalProductsNumber } = useFetchContext();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,12 +23,13 @@ export const FilterProvider = ({ children }) => {
   };
 
   const handleBrandFilter = (brand, isChecked) => {
+    const newBrandFilter = new Set(brandFilter);
     if (isChecked) {
-      setBrandFilter(new Set(brandFilter.add(brand)));
+      newBrandFilter.add(brand);
     } else {
-      brandFilter.delete(brand);
-      setBrandFilter(new Set(brandFilter));
+      newBrandFilter.delete(brand);
     }
+    setBrandFilter(newBrandFilter);
   };
 
   const handleSearch = () => {
@@ -41,8 +40,8 @@ export const FilterProvider = ({ children }) => {
     setCurrentPage(0);
     const filteredbySearch = allProducts.filter(
       (product) =>
-        product.title.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm),
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setFilteredProducts(filteredbySearch);
     setSearchTerm("");
@@ -56,56 +55,43 @@ export const FilterProvider = ({ children }) => {
     setPriceRange({ min: "", max: "" });
   };
 
-  useEffect(() => {
-    let filteredByBrand =
-      brandFilter.size > 0
-        ? allProducts.filter((product) => brandFilter.has(product.brand))
-        : allProducts;
+  const memoizedProducts = useMemo(() => {
+    let filteredByBrand = brandFilter.size > 0
+      ? allProducts.filter(product => brandFilter.has(product.brand))
+      : allProducts;
 
-    const filtered = filteredByBrand.filter(
-      (product) =>
-        (queryCategory === "" || product.category === queryCategory) &&
-        (priceRange.min === "" || product.price >= Number(priceRange.min)) &&
-        (priceRange.max === "" || product.price <= Number(priceRange.max)),
+    let filtered = filteredByBrand.filter(product =>
+      (queryCategory === "" || product.category === queryCategory) &&
+      (priceRange.min === "" || product.price >= Number(priceRange.min)) &&
+      (priceRange.max === "" || product.price <= Number(priceRange.max))
     );
 
-    const sorted = [...filtered].sort((a, b) => {
+    return filtered.sort((a, b) => {
       switch (sortBy) {
-        case "price":
-          return a.price - b.price;
-        case "price-desc":
-          return b.price - a.price;
-        case "name":
-          return a.title.localeCompare(b.title);
-        case "rating":
-          return b.rating - a.rating;
-        default:
-          return 0;
+        case "price": return a.price - b.price;
+        case "price-desc": return b.price - a.price;
+        case "name": return a.title.localeCompare(b.title);
+        case "rating": return b.rating - a.rating;
+        default: return 0;
       }
     });
+  }, [allProducts, queryCategory, priceRange, sortBy, brandFilter]);
 
+  useEffect(() => {
     const startIndex = currentPage * limit;
     const endIndex = startIndex + limit;
-    const paginated = sorted.slice(startIndex, endIndex);
+    const paginated = memoizedProducts.slice(startIndex, endIndex);
 
     setFilteredProducts(paginated);
-    setTotalProductsNumber(sorted.length);
-  }, [
-    allProducts,
-    queryCategory,
-    currentPage,
-    limit,
-    priceRange,
-    sortBy,
-    brandFilter,
-  ]);
+    setTotalProductsNumber(memoizedProducts.length);
+  }, [memoizedProducts, currentPage, limit]);
 
   return (
     <FilterContext.Provider
       value={{
         setQueryCategory,
         handlePageChange,
-        totalProductsNumber,
+        totalProductsNumber: memoizedProducts.length,
         limit,
         filteredProducts,
         setSortBy,
