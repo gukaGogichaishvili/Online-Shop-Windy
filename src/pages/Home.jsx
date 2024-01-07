@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useFetchContext } from "../context/FetchContext";
 import { ShoppingCartContext } from "../context/ShoppingCartContext";
 import { useRatingContext } from "../context/RatingContext";
-import "./index.css"
+import "../index.css";
 
 const Home = () => {
   const { searchTerm, setSearchTerm, handleSearch } = useFilterContext();
