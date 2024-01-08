@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import stripe from "stripe";
-import { ShoppingCartContext } from "../context/ShoppingCartContext";
 
 export async function createIntent() {
   return await stripe(
