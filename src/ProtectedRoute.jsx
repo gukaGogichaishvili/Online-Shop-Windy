@@ -5,8 +5,7 @@ import { AuthContext } from "./context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useContext(AuthContext);
-  const isAuthenticated = token !== null; 
-  return isAuthenticated ? children : <Navigate to="/redirected" />;
+  return token ? children : <Navigate to="/redirected" />;
 };
 
 export default ProtectedRoute;
